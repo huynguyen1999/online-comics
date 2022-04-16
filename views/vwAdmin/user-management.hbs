@@ -1,0 +1,69 @@
+<div class="container my-3">
+  <div class="row gx-2">
+    
+    {{> admin_controller}}
+    <div class="col-sm-10">
+      {{#if is_empty}}
+        <h5>No users yet!</h5>
+      {{else}}
+      <table class="table shadow ">
+        <thead>
+          <tr class="fs-5 bg-secondary text-white">
+            <th scope="col" class="px-5">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
+            <th scope="col">Management</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users as |user|}}
+          <tr >
+            <th scope="col" class="px-5">{{u_ID}}</th>
+            <th scope="col">{{u_Username}}</th>
+            <th scope="col">{{u_Email}}</th>
+            <th scope="col" class="col-role">{{u_Role}}</th>
+            <th scope="col">
+              {{#if u_IsBanned}}
+              Banned
+              {{else}}
+              Active
+              {{/if}}
+            </th>
+            <th scope="col" class="d-flex justify-content-center">
+              {{#if u_IsBanned}}
+              <button type="button" data-user-email="{{u_Email}}" data-user-id="{{u_ID}}" class="btn p-0 mx-1 btn-unban">
+                <i class="bi bi-unlock-fill"></i>
+              </button>
+              {{else}}
+              <button type="button" data-user-email="{{u_Email}}" data-user-id="{{u_ID}}" class="btn p-0 mx-1 btn-ban">
+                <i class="bi bi-lock-fill"></i>
+              </button>
+              {{/if}}
+              
+              {{#if u_IsPublisher}}
+              <button type="button" data-user-email="{{u_Email}}" data-user-id="{{u_ID}}" class="btn p-0 mx-1 btn-demote">
+                <i class="bi bi-arrow-down-left"></i>
+              </button>
+              {{else}}
+              <button type="button" data-user-email="{{u_Email}}" data-user-id="{{u_ID}}" class="btn p-0 mx-1 btn-promote">
+                <i class="bi bi-arrow-up-right"></i>
+              </button>
+              {{/if}}
+
+              <button type="button" data-user-email="{{u_Email}}" data-user-id="{{u_ID}}" class="btn p-0 mx-1 btn-remove">
+                <i class="bi bi-x-circle-fill"></i>
+              </button>
+            </th>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+    </div>
+    
+  </div>
+</div>
+
+<script src="/public/scripts/user_management.js"></script>

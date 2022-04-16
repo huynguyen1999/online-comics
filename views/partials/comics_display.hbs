@@ -1,0 +1,39 @@
+<div class="row g-2 my-3">
+  {{#each this.comics}}
+    <div class="col-md-3 col-lg-2">
+      <div class="card border-0">
+        <a href="/comic/{{c_ID}}" class="stretched-link"></a>
+        <img
+          class="card-img shadow"
+          src="/public/{{c_ID}}/cover.jpg"
+          alt="Card image"
+        />
+        <div class="card-img-overlay text-white">
+          <div class="fs-6 text-center">
+            <p class="bg-info rounded-3 w-75">
+              {{#if c_LastUpdate}}
+                {{c_LastUpdate}}
+              {{else}}
+                ?
+              {{/if}}
+              ago
+            </p>
+          </div>
+        </div>
+        <h6 class="text-truncate text-center opacity-75">
+          <div class="bg-dark text-white fst-italic">{{#if
+              c_Views
+            }}{{c_Views}}{{else}}0{{/if}}
+            views</div>
+          <span class="fw-bold fs-5">{{c_Name}}</span>
+          <br />
+          <span class="fw-normal fs-6">
+            Chapter
+            {{#if c_LatestChapter}} {{c_LatestChapter}} {{else}} 0 {{/if}}
+          </span>
+        </h6>
+
+      </div>
+    </div>
+  {{/each}}
+</div>

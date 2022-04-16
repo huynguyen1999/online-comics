@@ -1,0 +1,107 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navmenu"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home page</a>
+        </li>
+        <li class="nav-item dropdown header">
+          <a
+            href=""
+            class="nav-link active dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Tags
+          </a>
+          <ul class="header dropdown-menu px-3 m-0 row g-0">
+            <div class="container">
+              {{#each all_tags}}
+                <li class="col-1">
+                  <a class="dropdown-item" href="/tags/{{t_ID}}">{{t_Name}}</a>
+                </li>
+              {{/each}}
+            </div>
+          </ul>
+
+        </li>
+        <li class="nav-item dropdown header">
+          <a
+            href=""
+            class="nav-link active dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Ranking
+          </a>
+          <ul class="header dropdown-menu px-3 m-0 row">
+            <div class="container">
+              <li class="col-1"><a
+                  href="/ranking/day"
+                  class="dropdown-item"
+                >Day</a></li>
+              <li class="col-1"><a
+                  href="/ranking/week"
+                  class="dropdown-item"
+                >Week</a></li>
+              <li class="col-1"><a
+                  href="/ranking/month"
+                  class="dropdown-item"
+                >Month</a></li>
+              <li class="col-1"><a
+                  href="/ranking/likes"
+                  class="dropdown-item"
+                >Likes</a></li>
+              <li class="col-1"><a
+                  href="/ranking/follows"
+                  class="dropdown-item"
+                >Follows</a></li>
+              <li class="col-1"><a
+                  href="/ranking/new-uploads"
+                  class="dropdown-item"
+                >New uploads</a></li>
+            </div>
+
+          </ul>
+        </li>
+        {{#if is_auth}}
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/account/history"
+            >History</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/account/follows"
+            >Follows</a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              aria-current="page"
+              href="/account/likes"
+            >Likes</a>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+  li.dropdown.header {position: static;} .dropdown-menu.header {width: 100%;}
+  .header.dropdown-menu>li {display: inline-block; }
+  .header.dropdown-menu>.container>.col-1 {display: inline-block;}
+</style>

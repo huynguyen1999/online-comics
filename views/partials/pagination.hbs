@@ -1,0 +1,38 @@
+{{#unless is_empty}}
+<nav >
+    <ul class="pagination d-flex justify-content-center align-items-center">
+      {{#ifnoteq this.current_page 1}}
+        <li class="page-item">
+          <a href="{{../link}}1" class="page-link">
+            <i class="bi bi-chevron-double-left fa-lg"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a href="{{../link}}{{sub ../current_page}}" class="page-link">
+            <i class="bi bi-chevron-left fa-lg"></i>
+          </a>
+        </li>
+      {{/ifnoteq}}
+      {{#each this.page_items}}
+        <li class="page-item">
+            <a href="{{../link}}{{item}}" class="page-link {{#if is_active}}bg-primary text-light{{/if}}">
+                {{item}}
+            </a>
+        </li>
+      {{/each}}
+      {{#ifnoteq this.current_page this.n_pages}}
+      
+        <li class="page-item">
+          <a href="{{../link}}{{add ../current_page}}" class="page-link">
+            <i class="bi bi-chevron-right fa-lg"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a href="{{../link}}{{../n_pages}}" class="page-link">
+            <i class="bi bi-chevron-double-right fa-lg"></i>
+          </a>
+        </li>
+      {{/ifnoteq}}
+    </ul>
+</nav>
+{{/unless}}

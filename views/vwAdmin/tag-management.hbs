@@ -1,0 +1,57 @@
+<div class="container my-3">
+  <div class="row gx-2">
+    
+    {{> admin_controller}}
+   
+    <div class="col-sm-9">
+       {{#if is_empty}}
+      <h5>No tags yet!</h5>
+      {{else}}
+      <table class="table shadow">
+        <thead>
+          <tr class="fs-5 bg-secondary text-white">
+            <th scope="col" class="px-5">ID</th>
+            <th scope="col" >Tag Name</th>
+            <th scope="col" class="">Management</th>
+          </tr>
+        </thead>
+        <tbody id="tags_body">
+          {{#each all_tags as |tag|}}
+          <tr>
+              <th scope="col" class="px-5">{{t_ID}}</th>
+              <td scope="col" class="input-tag-name">
+                <input type="text" class="border-0" value="{{t_Name}}" readonly>
+              </td>
+              <td scope="col">
+                <button type="button" data-tag-id="{{t_ID}}"
+                  class="btn p-0 mx-1 btn-save" hidden> 
+                  <i class="bi bi-check-circle-fill"></i>
+                </button>
+                <button type="button" data-tag-id="{{t_ID}}"
+                  class="btn p-0 mx-1 btn-edit">
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+                <button type="button" data-tag-id="{{t_ID}}"
+                  class="btn p-0 mx-1 btn-remove">
+                  <i class="bi bi-x-circle-fill"></i>
+                </button>
+              </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      
+      <div class="mb-3 float-end d-flex">
+        <input type="text" placeholder="New tag">
+        <button class="btn btn-outline-secondary d-flex justify-content-center align-items-center"
+          type="button" id="btn_add_tag">
+          <i class="bi bi-plus-circle-fill mx-1"></i>
+          Add tag</button>
+      </div>
+     
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+<script src="/public/scripts/tag_management.js"></script>

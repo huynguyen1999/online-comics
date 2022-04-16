@@ -1,0 +1,72 @@
+<div class="modal fade" id="login" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Log In</h5>
+      </div>
+      <div class="modal-body" autocomplete="off">
+        <form action="/account/login" method="POST" id="form_login">
+          <div class="mb-3">
+            <label
+              for="username"
+              class="col-form-label"
+              autocomplete="off"
+            >Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="li_username"
+              name="username"
+            />
+          </div>
+          <div class="mb-3">
+            <label
+              for="password"
+              class="col-form-label"
+              autocomplete="off"
+            >Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="li_password"
+              name="password"
+            />
+          </div>
+        </form>
+
+      </div>
+      <div
+        class="modal-footer d-flex justify-content-between align-items-center"
+      >
+        <div class="d-flex">
+          <a
+            class="btn btn-transparent fs-6 fw-bold"
+            data-bs-toggle="modal"
+            href="#signup"
+            role="button"
+          >Sign up</a>
+          <h3>|</h3>
+          <a
+            class="btn btn-transparent fs-6 fw-bold"
+            data-bs-toggle="modal"
+            href="#forget_password"
+            role="button"
+          >Forget password?</a>
+        </div>
+        <div>
+          <button
+            type="button"
+            id="btn_login"
+            onclick="login()"
+            class="btn btn-primary"
+          >Log in</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

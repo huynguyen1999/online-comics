@@ -1,0 +1,97 @@
+<div class="container">
+  <h3
+    class="font-weight-bold d-flex align-items-center justify-content-center text-danger"
+  >
+    <i class="bi bi-star-fill px-2"></i>
+    Best Comics
+  </h3>
+  <div class="row">
+    {{#each this.top_views}}
+      <div class="col-md-3 col-lg-2">
+        <div class="card bg-inverse border-0">
+          <a href="/comic/{{c_ID}}" class="stretched-link"></a>
+          <img
+            class="card-img shadow"
+            src="/public/{{c_ID}}/cover.jpg"
+            alt="Card image"
+          />
+          <div class="card-img-overlay text-white">
+            <div class="fs-6 text-center">
+              <p class="bg-info rounded-3 w-75">
+                {{#if c_LastUpdate}}
+                  {{c_LastUpdate}}
+                {{else}}
+                  ?
+                {{/if}}
+                ago
+              </p>
+            </div>
+          </div>
+          <h6 class="text-truncate text-center my-2">
+            <span class="fw-bold fs-5">{{c_Name}}</span>
+            <br />
+            <span class="fw-normal fs-6">
+              Chapter
+              {{#if c_LatestChapter}} {{c_LatestChapter}} {{else}} 0 {{/if}}
+            </span>
+          </h6>
+
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+</div>
+<div class="container">
+  <h3
+    class="font-weight-bold d-flex align-items-center justify-content-center text-danger"
+  >
+    <i class="bi bi-cloud-arrow-up-fill px-2"></i>
+    New Updates
+  </h3>
+  <div class="row g-2">
+    {{#each this.new_uploads}}
+      <div class="col-md-3 col-lg-2">
+        <div class="card border-0">
+          <a href="/comic/{{c_ID}}" class="stretched-link"></a>
+          <img
+            class="card-img shadow"
+            src="/public/{{c_ID}}/cover.jpg"
+            alt="Card image"
+          />
+          <div class="card-img-overlay text-white">
+            <div class="fs-6 text-center">
+              <p class="bg-info rounded-3 w-75">
+                {{#if c_LastUpdate}}
+                  {{c_LastUpdate}}
+                {{else}}
+                  ?
+                {{/if}}
+                ago
+              </p>
+
+            </div>
+          </div>
+          <h6 class="text-truncate text-center my-2">
+            <span class="fw-bold fs-5">{{c_Name}}</span>
+            <br />
+            <span class="fw-normal fs-6">
+              Chapter
+              {{#if c_LatestChapter}} {{c_LatestChapter}} {{else}} 0 {{/if}}
+            </span>
+          </h6>
+
+        </div>
+      </div>
+    {{/each}}
+  </div>
+  <div class="d-flex justify-content-center my-2">
+    <a
+      class="btn btn-danger w-25 text-light opacity-75 pt-3"
+      type="button"
+      href="/new-updates?page=1"
+    >
+      <h3>More comics...</h3>
+    </a>
+  </div>
+</div>

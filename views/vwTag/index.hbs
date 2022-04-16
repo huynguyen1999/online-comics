@@ -1,0 +1,104 @@
+<style>
+  .scrollable-menu{
+    max-height: 200px;
+  }
+</style>
+
+<div class="container">
+  <h3
+    class="font-weight-bold text-info"
+  >
+    <i class="bi bi-flag-fill px-2"></i>
+    {{tag.t_Name}} Comics
+  </h3>
+    
+    <div class="container border rounded ">
+      <div class="row g-2 my-2">
+        <div class="col-1 my-auto">
+          Tag
+        </div>
+        <div class="col">
+          <div class="dropdown ">
+            <button class="btn btn-light shadow dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              {{tag.t_Name}}
+            </button>
+            <ul class="dropdown-menu overflow-auto scrollable-menu" >
+              {{#each all_tags}}
+              <li><a class="dropdown-item {{#ifeq t_Name ../tag.t_Name}} active {{/ifeq}}" href="/tags/{{t_ID}}">{{t_Name}}</a></li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row g-2 my-2">
+        <div class="col-1  my-auto">Status</div>
+        <div class="col">
+          <div class="dropdown">
+            <button class="btn btn-light shadow dropdown-toggle" type="button"data-bs-toggle="dropdown">
+              {{#ifeq status 0}} Any {{/ifeq}}
+              {{#ifeq status 1}} Ongoing {{/ifeq}}
+              {{#ifeq status -1}} Finished {{/ifeq}}
+            </button>
+            <ul class="dropdown-menu " >
+              <li><p class="dropdown-item status-control" 
+              data-id="1">Ongoing</p></li>
+              <li><p class="dropdown-item status-control" 
+              data-id="-1">Finished</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row g-2 my-2">
+        <div class="col-1 my-auto">Sort</div>
+        <div class="col">
+          <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle shadow" type="button" data-bs-toggle="dropdown">
+              {{current_sort.name}}
+            </button>
+            <ul class="dropdown-menu">
+              {{#each sort_types}}
+                <li><p class="dropdown-item sort-control" data-id="{{id}}">{{name}}</p></li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{>comics_display}}
+  {{>pagination}}
+</div>
+
+
+<script>
+  $(document).on('click', '.sort-control', (event)=>{
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    const current_sort_id = params.sort;
+    const new_sort_id = $(event.target).data('id');
+    let new_href = "";
+    if (location.href.includes("?")){
+      if (current_sort_id !== null)
+        new_href = location.href.replace(`sort=${current_sort_id}`,`sort=${new_sort_id}`);
+      else new_href = location.href + `&sort=${new_sort_id}`
+    }
+    else new_href = location.href + `?sort=${new_sort_id}`
+    window.location = new_href;
+  });
+  $(document).on('click', '.status-control', (event)=>{
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    const current_status = params.status;
+    const new_status = $(event.target).data('id');
+    let new_href = "";
+    if (location.href.includes("?")){
+      if (current_status !== null)
+        new_href = location.href.replace(`status=${current_status}`,`status=${new_status}`);
+      else
+        new_href = location.href + `&status=${new_status}`;
+    }
+    else new_href = location.href + `?status=${new_status}`;
+    window.location = new_href;
+  });
+</script>

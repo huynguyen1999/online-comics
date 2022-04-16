@@ -1,0 +1,290 @@
+<style>
+  .scrollable{
+    max-height: 25%;
+  }
+  input:focus {
+    outline: none;
+  }
+</style>
+
+{{#unless is_reader}}
+
+
+{{/unless}}
+
+<div class="container my-3">
+  {{#unless is_reader}}
+    <div class="float-end dropdown">
+      <button data-comic-id="{{comic.c_ID}}" id="btn-remove-comic"
+      class="btn mx-2 mb-1 p-1 btn-outline-primary"> 
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  {{/unless}}
+  {{#with this.comic}}
+    <div class="row g-0">
+      <div class="col-2">
+        <img src="/public/{{c_ID}}/cover.jpg" class="shadow" />
+      </div>
+      <div class="col mx-3">
+        <div class="d-flex justify-content center">
+          <input type="text" value="{{c_Name}}" class="fs-4 border-0" readonly>
+          {{#unless ../is_reader}}
+          <button data-comic-id="{{c_ID}}"
+          class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-edit-name">
+            <i class="bi bi-pen-fill"></i>
+          </button>
+          <button data-comic-id="{{c_ID}}"
+          class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-name" hidden>
+           <i class="bi bi-check"></i>
+          </button>
+          {{/unless}}
+        </div>
+
+        <table class="table table-borderless ">
+
+          <tbody >
+            <tr>
+              <td class="w-25">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-person-fill mx-1"></i>
+                  Author
+                </div>
+              </td>
+              <td class="w-25 ">
+                <a href="/authors/{{a_ID}}"
+                class="text-decoration-none ">
+                {{#if a_Name}}{{a_Name}}{{else}}Updating...{{/if}}
+                </a>
+              </td>
+              {{#unless ../is_reader}}
+              <td class="d-flex ">
+                <button  data-comic-id="{{c_ID}}" data-author-id="{{a_ID}}"
+                class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-author">
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+                <button data-comic-id="{{c_ID}}"
+                class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-author" >
+                  <i class="bi bi-check"></i>
+                </button>
+              </td>
+              {{/unless}}
+            </tr>
+            
+            <tr>
+              <td class="w-25">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-soundwave mx-1"></i>
+                  Status
+                </div>
+              </td class="w-25">
+              <td>
+                {{#ifeq c_Status 1}}Finished{{else}}Ongoing{{/ifeq}}
+              </td> 
+              {{#unless ../is_reader}}
+              <td>
+                <button  data-comic-id="{{c_ID}}"
+                class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-status" >
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+                <button data-comic-id="{{c_ID}}"
+                class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-status" hidden>
+                  <i class="bi bi-check"></i>
+                </button>
+              </td>
+              {{/unless}}
+            </tr>
+
+            <tr>
+              <td class="w-25">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-hand-thumbs-up-fill mx-1"></i>
+                  Likes
+                </div>
+              </td>
+              <td class="w-25">
+                <div id="comic_likes">{{#if c_Likes}}{{c_Likes}}{{else}}Updating{{/if}}</div>
+              </td>
+              {{#unless ../is_reader}}
+              <td>
+                <button  data-comic-id="{{c_ID}}"
+                class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-likes">
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+                <button data-comic-id="{{c_ID}}"
+                class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-likes" hidden>
+                  <i class="bi bi-check"></i>
+                </button>
+              </td>
+              {{/unless}}
+            </tr>
+              
+            <tr>
+              <td class="w-25">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-bookmark-fill mx-1"></i>
+                  Follows
+                </div>
+              </td>
+              <td class="w-25">
+                <div id="comic_follows">{{#if c_Follows}}{{c_Follows}}{{else}}Updating{{/if}}</div>
+              </td>
+              {{#unless ../is_reader}}
+              <td>
+                <button  data-comic-id="{{c_ID}}"
+                class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-follows">
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+                <button data-comic-id="{{c_ID}}"
+                class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-follows" hidden>
+                  <i class="bi bi-check"></i>
+                </button>
+              </td>
+              {{/unless}}
+            </tr>
+
+             <tr>
+              <td class="w-25">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-eye mx-1"></i>
+                  Views
+                </div>
+              </td>
+              <td class="w-25">
+                 <div id="comic_views">{{#if c_Views}}{{c_Views}}{{else}}Updating{{/if}}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="row g-0 my-2">
+          <div class="col">
+            {{#each ../comic_tags}}
+              <a
+                href="/tags/{{t_ID}}"
+                class="btn text-warning bg-light border border-warning m-1 btn-tag"
+              >
+                {{t_Name}}
+              </a>
+            {{/each}}
+            {{#unless ../is_reader}}
+              
+              <button  data-comic-id="{{c_ID}}"
+              class="btn mx-2 p-1 btn-outline-primary  btn-add-tag" >
+                <i class="bi bi-plus"></i>
+              </button>
+            
+            
+              <button  data-comic-id="{{c_ID}}"
+              class="btn mx-2 p-1 btn-outline-primary  btn-remove-tag" >
+                <i class="bi bi-dash"></i>
+              </button>
+              
+              {{/unless}}
+          </div>
+        </div>
+        <div class="row g-0 my-2">
+          <div class="col-2 mx-2">
+            <a href="/comic/{{c_ID}}/{{../first_chapter.ch_ID}}" 
+            class="btn btn-success bg-success text-white d-flex align-items-center justify-content-center">
+              <i class="bi bi-journal-arrow-down mx-2"></i>
+              Read first
+            </a>
+          </div>
+          <div class="col-2 mx-2">
+            <a href="/comic/{{c_ID}}/{{../last_chapter.ch_ID}}" 
+            class="btn btn-dark bg-dark text-white d-flex align-items-center justify-content-center">
+              <i class="bi bi-book mx-2"></i>
+              Read last
+            </a>
+          </div>
+          {{#if ../is_auth}}
+          <div class="col-2 mx-2">
+            <a id="btn_follow" data-user-id="{{../auth_user.u_ID}}" data-comic-id="{{c_ID}}" data-follow-status="{{../follow_status}}"
+            class="btn btn-danger bg-danger text-white d-flex align-items-center justify-content-center">
+              {{#if ../follow_status}}
+              <i class="bi bi-bookmark-fill mx-2"></i>
+              Unfollow 
+              {{else}}
+              <i class="bi bi-bookmark mx-2"></i>
+              Follow 
+              {{/if}}
+            
+            </a>
+          </div>
+          <div class="col-2 mx-2">
+            <a id="btn_like" data-user-id="{{../auth_user.u_ID}}" data-comic-id="{{c_ID}}" data-like-status="{{../like_status}}"
+            class="btn btn-primary bg-primary text-white d-flex align-items-center justify-content-center" >
+             {{#if ../like_status}}
+              <i id="icon_like" class="bi bi-hand-thumbs-down mx-2"></i>
+               Dislike
+              {{else}}
+              <i class="bi bi-hand-thumbs-up mx-2"></i>
+              Like
+              {{/if}}
+            
+            
+          </a>
+          </div>
+         {{/if}}
+        </div>
+        
+      </div>
+
+    </div>
+    <div>
+      <div class="d-flex align-items-center fs-4 text-warning my-3">
+        <i class="bi bi-exclamation-circle-fill mx-2"></i>
+        Description
+      </div>
+      <div class="d-flex justify-content-start align-items-center">
+        <p class="mx-3">{{c_Description}}</p>
+        {{#unless ../is_reader}}
+        <button  data-comic-id="{{c_ID}}"
+        class="btn mb-3 p-1 btn-outline-primary  btn-description" >
+          <i class="bi bi-pencil-fill"></i>
+        </button>
+        {{/unless}}
+      </div>
+      
+    </div>
+    <div>
+      <div class="d-flex align-items-center fs-4 text-warning">
+        <i class="bi bi-view-list mx-2"></i>
+        Chapters
+      </div>
+      <div class="overflow-auto shadow-lg mx-3 my-3 scrollable" >
+        {{#if ../comic_chapters}}
+          {{#each ../comic_chapters}}
+          <div class="d-flex justify-content-between px-3 my-3 shadow-sm">
+            <div>
+              {{#unless ../is_reader}}
+              <button  data-chapter-id="{{ch_ID}}" 
+              class="btn mx-2 p-1 btn-outline-primary  btn-chapter" >
+                <i class="bi bi-x"></i>
+              </button>
+              {{/unless}}
+              <a class="text-decoration-none text-dark" href="/comic/{{c_ID}}/{{ch_ID}}">
+                Chapter {{ch_No}}
+              </a>
+            </div>
+            
+            <p>{{ch_Update}}</p>
+          </div>
+          {{/each}}
+        {{else}}
+          <h3 class="text-center my-3">No fricking chapters...</h3>
+        {{/if}}
+      </div>
+    </div>
+  {{/with}}  
+
+  {{>comments}}
+</div>
+
+{{#unless is_reader}}
+<script src="/public/scripts/publisher.js"></script>
+{{/unless}}
+<script src="/public/scripts/like.js"></script>
+<script src="/public/scripts/follow.js"></script>
+

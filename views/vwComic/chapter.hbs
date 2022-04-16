@@ -1,0 +1,63 @@
+<style>
+    .chapter-image{
+        min-height: 300px;
+    }
+</style>
+
+
+<div class="container my-3">
+    <div class="d-flex justify-content-start">
+        <h5> 
+            <a class="text-decoration-none text-dark" href="/">Home page </a>/
+            <a class="text-decoration-none text-dark" href="/comic/{{this.current_comic.c_ID}}">
+                {{this.current_comic.c_Name}} 
+            </a>/  
+            <a class="text-decoration-none text-dark" href="#">Chapter {{this.current_chapter.ch_No}}</a> 
+        </h5>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        {{#each comic_images as |image|}}
+        <img class="mx-auto mw-100 chapter-image" 
+        data-src="/public/{{../current_comic.c_ID}}/{{../current_chapter.ch_No}}/{{image.path}}">
+        {{/each}}
+    </div>
+
+    
+</div>
+
+<div class="fixed-bottom bg-light d-flex justify-content-center align-items-center border-top">
+    <a href="/" class="bg-light rounded-circle my-1 mx-2 fs-3 text-decoration-none text-dark">
+        <i class="bi bi-house-fill"></i>
+    </a>
+    {{#ifnoteq this.current_chapter.ch_No 1}}
+    <a class="bg-light rounded-circle my-1 mx-2 fs-3 text-decoration-none text-dark"
+        href="/comic/{{../this.current_comic.c_ID}}/{{../this.prev_chapter.ch_ID}}">
+        <i class="bi bi-arrow-left-circle-fill "></i>
+    </a>
+    {{/ifnoteq}}
+    <div class="dropdown my-1 mx-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Chapter {{current_chapter.ch_No}}
+        </button>
+        <ul class="dropdown-menu">
+            {{#each comic_chapters}}
+                <li><a class="dropdown-item 
+                {{#ifeq ch_No ../current_chapter.ch_No}} active {{/ifeq}}" 
+                href="/comic/{{../current_comic.c_ID}}/{{ch_ID}}">
+                Chapter {{ch_No}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+    {{#ifnoteq this.current_chapter.ch_No this.last_chapter.ch_No}}
+    <a class="bg-light rounded-circle my-1 mx-2 fs-3 text-decoration-none text-dark"
+     href="/comic/{{../this.current_comic.c_ID}}/{{../this.next_chapter.ch_ID}}">
+        <i class="bi bi-arrow-right-circle-fill"></i>
+    </a>
+    {{/ifnoteq}}
+</div>
+<div class="container">
+    {{>comments}}
+</div>
+
+<script src="/public/scripts/observer.js"></script>
+

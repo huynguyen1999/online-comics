@@ -1,0 +1,72 @@
+<div class="d-flex align-items-center fs-4 text-warning">
+  <i class="bi bi-keyboard-fill mx-2"></i>
+  Comments
+</div>
+{{#if is_auth}}
+  <div class="input-group mb-3">
+    <textarea
+      data-user-name="{{auth_user.u_Name}}"
+      data-user-id="{{auth_user.u_ID}}"
+      data-chapter-id="{{current_chapter.ch_ID}}"
+      type="text"
+      id="comment_text"
+      class="form-control"
+    ></textarea>
+    <button
+      class="btn btn-outline-primary mx-1 rounded"
+      type="button"
+      id="btn_comment"
+    >Comment
+    </button>
+  </div>
+{{/if}}
+<div id="comment_container" class="container my-3">
+  {{#each comic_comments}}
+    <div class="d-flex my-2 comment-box">
+      <img
+        src="/public/images/avatar.png"
+        width="40"
+        height="40"
+        class="rounded-circle"
+      />
+      <div class="mx-3 w-100 rounded border">
+        <div class="mx-3 my-1">
+          {{! uid => who }}
+          <span class="text-primary fw-bold">{{u_Name}}</span>
+          <span class="mx-3 text-dark bold">Chapter {{ch_No}}</span>
+          <span class="mx-3 text-secondary">{{cmt_Time}}</span>
+        </div>
+        <div class="text-comment d-flex">
+          <textarea
+            class="w-100 mx-2 border-0 px-3 rounded-0"
+            readonly
+          >{{cmt_Text}}</textarea>
+          <button
+            type="button"
+            data-comment-id="{{cmt_ID}}"
+            class="btn btn-outline-primary btn-comment btn-save"
+            hidden
+          >
+            <i class="bi bi-check"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-comment btn-edit"
+          >
+            <i class="bi bi-vector-pen"></i>
+          </button>
+          <button
+            type="button"
+            data-comment-id="{{cmt_ID}}"
+            class="btn btn-outline-primary btn-comment btn-delete"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+
+  <script src="/public/scripts/comment.js"></script>

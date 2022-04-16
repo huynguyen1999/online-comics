@@ -1,0 +1,55 @@
+<h3
+  class="container font-weight-bold d-flex align-items-center justify-content-start text-danger"
+>
+  <i class="bi bi-flag-fill px-2"></i>
+  {{banner}}
+</h3>
+
+<div class="container shadow">
+  {{#if is_empty}}
+    <h3 class="shadow">No history recorded!</h3>
+  {{else}}
+    <table class="table">
+      <thead>
+        <tr class="fs-4 bg-dark text-white">
+          <th scope="col" class="px-5">Time</th>
+          <th scope="col">Comic</th>
+          <th scope="col">Chapter</th>
+          <th scope="col" class="px-4">
+            <button class="btn btn-outline-light" id="btn-trash-all">
+              <i class="bi bi-trash"></i>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each history as |record|}}
+          <tr>
+            <th scope="row">{{h_Time}}</th>
+            <td scope="row">{{c_Name}}</td>
+            <td scope="row" class="px-5">{{ch_No}}</td>
+            <td scope="row" class="d-flex align-items-start">
+              <button
+                class="btn btn-outline-primary btn-read"
+                type="button"
+                data-comic-id="{{c_ID}}"
+                data-chapter-id="{{ch_ID}}"
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+              <button
+                class="btn btn-outline-primary mx-2 btn-trash"
+                data-history-id="{{h_ID}}"
+              >
+                <i class="bi bi-x"></i>
+              </button>
+            </td>
+
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</div>
+
+<script src="/public/scripts/history.js"></script>
