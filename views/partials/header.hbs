@@ -42,7 +42,6 @@
     </button>
     <div class="collapse navbar-collapse" id="headermenu">
       <ul class="navbar-nav ms-auto">
-         {{!-- <form action="/account/logout" method="POST" id="#form_logout"></form> --}}
         {{#if is_auth}}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,10 +51,7 @@
               {{#if is_admin}}admin -{{/if}}
               <span class="fw-bold fs-5">{{auth_user.u_Name}}</span>
             </a>
-            <ul class="dropdown-menu" arai-labelledby="navbarDropdown">
-              {{#if is_publisher}}
-              <li><a class="dropdown-item" href="/publisher">For publisher</a></li>
-              {{/if}}
+            <ul class="dropdown-menu">
               {{#if is_admin}}
               <li><a class="dropdown-item" href="/admin">For admin</a></li>
               {{/if}}

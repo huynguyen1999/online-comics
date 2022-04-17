@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rimraf": "./node_modules/rimraf/bin.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "mysql": "^2.18.1",
     "nodemailer": "^6.7.3",
     "passport": "^0.5.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "rimraf": "^3.0.2"
   }
 }

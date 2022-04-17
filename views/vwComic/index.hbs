@@ -7,20 +7,21 @@
   }
 </style>
 
-{{#unless is_reader}}
+{{#if is_editible}}
 
 
-{{/unless}}
+{{/if}}
 
 <div class="container my-3">
-  {{#unless is_reader}}
+  {{#if is_editible}}
     <div class="float-end dropdown">
-      <button data-comic-id="{{comic.c_ID}}" id="btn-remove-comic"
+      <button data-comic-id="{{comic.c_ID}}" data-user-id="{{auth_user.u_ID}}" 
+      id="btn-remove-comic"
       class="btn mx-2 mb-1 p-1 btn-outline-primary"> 
         <i class="bi bi-trash"></i>
       </button>
     </div>
-  {{/unless}}
+  {{/if}}
   {{#with this.comic}}
     <div class="row g-0">
       <div class="col-2">
@@ -29,7 +30,7 @@
       <div class="col mx-3">
         <div class="d-flex justify-content center">
           <input type="text" value="{{c_Name}}" class="fs-4 border-0" readonly>
-          {{#unless ../is_reader}}
+          {{#if ../is_editible}}
           <button data-comic-id="{{c_ID}}"
           class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-edit-name">
             <i class="bi bi-pen-fill"></i>
@@ -38,7 +39,7 @@
           class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-name" hidden>
            <i class="bi bi-check"></i>
           </button>
-          {{/unless}}
+          {{/if}}
         </div>
 
         <table class="table table-borderless ">
@@ -51,24 +52,25 @@
                   Author
                 </div>
               </td>
-              <td class="w-25 ">
+              <td class="w-25" id="author-col">
                 <a href="/authors/{{a_ID}}"
-                class="text-decoration-none ">
+                class="text-decoration-none">
                 {{#if a_Name}}{{a_Name}}{{else}}Updating...{{/if}}
                 </a>
               </td>
-              {{#unless ../is_reader}}
+              {{#if ../is_editible}}
               <td class="d-flex ">
                 <button  data-comic-id="{{c_ID}}" data-author-id="{{a_ID}}"
+                data-author-name="{{a_Name}}"
                 class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-author">
                   <i class="bi bi-pen-fill"></i>
                 </button>
                 <button data-comic-id="{{c_ID}}"
-                class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-author" >
+                class="btn mx-2 mb-1 p-1 btn-outline-primary" id="btn-save-author" hidden>
                   <i class="bi bi-check"></i>
                 </button>
               </td>
-              {{/unless}}
+              {{/if}}
             </tr>
             
             <tr>
@@ -78,12 +80,12 @@
                   Status
                 </div>
               </td class="w-25">
-              <td>
-                {{#ifeq c_Status 1}}Finished{{else}}Ongoing{{/ifeq}}
+              <td class="dropdown" id="status-col">
+                {{#ifeq c_Status 1}}Ongoing{{else}}Finished{{/ifeq}}
               </td> 
-              {{#unless ../is_reader}}
+              {{#if ../is_editible}}
               <td>
-                <button  data-comic-id="{{c_ID}}"
+                <button  data-comic-id="{{c_ID}}" data-comic-status="{{c_Status}}"
                 class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-status" >
                   <i class="bi bi-pen-fill"></i>
                 </button>
@@ -92,7 +94,7 @@
                   <i class="bi bi-check"></i>
                 </button>
               </td>
-              {{/unless}}
+              {{/if}}
             </tr>
 
             <tr>
@@ -103,9 +105,11 @@
                 </div>
               </td>
               <td class="w-25">
-                <div id="comic_likes">{{#if c_Likes}}{{c_Likes}}{{else}}Updating{{/if}}</div>
+                <div id="comic_likes">
+                  <input type="text" class="border-0" value="{{#if c_Likes}}{{c_Likes}}{{else}}Updating{{/if}}" readonly/>
+                 </div>
               </td>
-              {{#unless ../is_reader}}
+              {{#if ../is_editible}}
               <td>
                 <button  data-comic-id="{{c_ID}}"
                 class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-likes">
@@ -116,7 +120,7 @@
                   <i class="bi bi-check"></i>
                 </button>
               </td>
-              {{/unless}}
+              {{/if}}
             </tr>
               
             <tr>
@@ -127,9 +131,12 @@
                 </div>
               </td>
               <td class="w-25">
-                <div id="comic_follows">{{#if c_Follows}}{{c_Follows}}{{else}}Updating{{/if}}</div>
+                <div id="comic_follows">
+                  <input type="text" class="border-0"
+                   value="{{#if c_Follows}}{{c_Follows}}{{else}}Updating{{/if}}" readonly/> 
+                </div>
               </td>
-              {{#unless ../is_reader}}
+              {{#if ../is_editible}}
               <td>
                 <button  data-comic-id="{{c_ID}}"
                 class="btn mx-2 p-1 btn-outline-primary" id="btn-edit-follows">
@@ -140,7 +147,7 @@
                   <i class="bi bi-check"></i>
                 </button>
               </td>
-              {{/unless}}
+              {{/if}}
             </tr>
 
              <tr>
@@ -157,32 +164,44 @@
           </tbody>
         </table>
         
-        <div class="row g-0 my-2">
-          <div class="col">
-            {{#each ../comic_tags}}
+        <div class="m-2">
+          <div id="comic-tags" class="row">
+          {{#each ../comic_tags}}
+            <div class="tag-element col-3">
               <a
                 href="/tags/{{t_ID}}"
-                class="btn text-warning bg-light border border-warning m-1 btn-tag"
+                class="btn text-warning bg-light border border-warning ms-3 my-1 btn-tag"
               >
                 {{t_Name}}
               </a>
-            {{/each}}
-            {{#unless ../is_reader}}
-              
-              <button  data-comic-id="{{c_ID}}"
-              class="btn mx-2 p-1 btn-outline-primary  btn-add-tag" >
-                <i class="bi bi-plus"></i>
-              </button>
-            
-            
-              <button  data-comic-id="{{c_ID}}"
-              class="btn mx-2 p-1 btn-outline-primary  btn-remove-tag" >
+              {{#if ../../is_editible}}
+              <button  data-tag-id="{{t_ID}}" data-comic-id="{{../c_ID}}"
+              class="btn p-1 btn-outline-primary btn-remove-tag" >
                 <i class="bi bi-dash"></i>
               </button>
-              
-              {{/unless}}
+              {{/if}}
+            </div>
+          {{/each}}
           </div>
+          {{#if ../is_editible}}
+          <div id="comic-tags-edit" class="my-2 ms-2 d-flex"> 
+            <button data-comic-id="{{c_ID}}" id="btn-add-tag"
+            class="btn mx-2 p-1 btn-outline-primary">
+              Add Tag
+            </button>
+            <button data-comic-id="{{c_ID}}" id="btn-save-tag" 
+            class="btn my-2 ms-2 p-1 btn-outline-success" hidden>
+              Save 
+            </button>
+            <select class="form-select" data-comic-id="{{c_ID}}" 
+            id="select-add-tag" multiple hidden>
+
+            </select>
+          </div>
+          {{/if}}
         </div>
+        
+
         <div class="row g-0 my-2">
           <div class="col-2 mx-2">
             <a href="/comic/{{c_ID}}/{{../first_chapter.ch_ID}}" 
@@ -238,13 +257,17 @@
         Description
       </div>
       <div class="d-flex justify-content-start align-items-center">
-        <p class="mx-3">{{c_Description}}</p>
-        {{#unless ../is_reader}}
-        <button  data-comic-id="{{c_ID}}"
-        class="btn mb-3 p-1 btn-outline-primary  btn-description" >
+        <input class="mx-3 border-0" id="text-description" value="{{c_Description}}" readonly/>
+        {{#if ../is_editible}}
+        <button  data-comic-id="{{c_ID}}" id='btn-edit-description'
+        class="btn p-1 btn-outline-primary" >
           <i class="bi bi-pencil-fill"></i>
         </button>
-        {{/unless}}
+        <button  data-comic-id="{{c_ID}}" id="btn-save-description"
+        class="btn p-1 btn-outline-primary" hidden>
+          <i class="bi bi-check"></i>
+        </button>
+        {{/if}}
       </div>
       
     </div>
@@ -253,17 +276,18 @@
         <i class="bi bi-view-list mx-2"></i>
         Chapters
       </div>
-      <div class="overflow-auto shadow-lg mx-3 my-3 scrollable" >
+      <div class="overflow-auto shadow-lg mx-3 my-3 scrollable chapter-container" >
         {{#if ../comic_chapters}}
           {{#each ../comic_chapters}}
           <div class="d-flex justify-content-between px-3 my-3 shadow-sm">
             <div>
-              {{#unless ../is_reader}}
-              <button  data-chapter-id="{{ch_ID}}" 
-              class="btn mx-2 p-1 btn-outline-primary  btn-chapter" >
+              {{#if ../../is_editible}}
+              <button  data-chapter-id="{{ch_ID}}" data-chapter-no="{{ch_No}}"
+              data-comic-id="{{c_ID}}"
+              class="btn mx-2 p-1 btn-outline-primary btn-remove-chapter" >
                 <i class="bi bi-x"></i>
               </button>
-              {{/unless}}
+              {{/if}}
               <a class="text-decoration-none text-dark" href="/comic/{{c_ID}}/{{ch_ID}}">
                 Chapter {{ch_No}}
               </a>
@@ -282,9 +306,9 @@
   {{>comments}}
 </div>
 
-{{#unless is_reader}}
+{{#if is_editible}}
 <script src="/public/scripts/publisher.js"></script>
-{{/unless}}
+{{/if}}
 <script src="/public/scripts/like.js"></script>
 <script src="/public/scripts/follow.js"></script>
 

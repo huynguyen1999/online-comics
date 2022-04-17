@@ -59,5 +59,11 @@ module.exports = {
 
         delete tag_entity[ 't_ID' ];
         return database.patch( tag_entity, condition, 'tags' );
+    },
+    get_other_tags: comic_id =>
+    {
+        const sql = `select * from tags where t_ID not in 
+                    (select t_ID from comic_tag_details where c_ID=${ comic_id })`;
+        return database.load( sql );
     }
 };

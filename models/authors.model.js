@@ -30,5 +30,19 @@ module.exports = {
         const rows = await database.load( sql );
         if ( rows.length === 0 ) return null;
         return rows[ 0 ];
+    },
+    find_by_name: async author_name =>
+    {
+        const sql = `SELECT * FROM authors WHERE a_Name = "${ author_name }"`;
+        const rows = await database.load( sql );
+        if ( rows.length === 0 ) return null;
+        return rows[ 0 ];
+    },
+    add_author: async entity => database.add( entity, `authors` ),
+    update_comic_author: entity =>
+    {
+        const condition = { c_ID: entity.c_ID };
+        delete entity[ 'c_ID' ];
+        return database.patch( entity, condition, 'comics' );
     }
 };

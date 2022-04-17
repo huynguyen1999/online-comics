@@ -5,8 +5,25 @@ const moment = require( 'moment' );
 const account_auth = require( '../middlewares/account_auth.mdw' );
 const account_model = require( '../models/account.model' );
 const tag_model = require( '../models/tags.model' );
+const publisher_model = require( '../models/publisher.model' );
 const fs = require( 'fs' );
 require( 'dotenv' ).config();
+
+router.get( '/:comic_id/other-tags', async ( req, res ) =>
+{
+    try
+    {
+        const comic_id = +req.params[ 'comic_id' ];
+        const other_tags = await tag_model.get_other_tags( comic_id );
+        console.log( other_tags );
+        return res.json( other_tags );
+    }
+    catch ( error )
+    {
+        console.log( error );
+        return res.json( false );
+    }
+} );
 
 router.get( '/:comic_id', async ( req, res ) =>
 {
@@ -33,6 +50,13 @@ router.get( '/:comic_id', async ( req, res ) =>
             for ( const chapter of comic_chapters )
                 chapter.ch_Update = moment( chapter.ch_Update, 'YYYY-MM-DD' ).format( 'DD/MM/YYYY' );
 
+        let is_editible = false;
+        if ( req.session.role === 'admin' )
+            is_editible = true;
+        if ( req.session.role === 'publisher' )
+            is_editible = await publisher_model.is_editible( req.user.u_ID, c_ID );
+        console.log( is_editible );
+        console.log( req.session.role );
         res.render( 'vwComic/index', {
             comic,
             comic_tags,
@@ -42,7 +66,8 @@ router.get( '/:comic_id', async ( req, res ) =>
             comic_comments,
             last_chapter: comic_chapters[ 0 ] || null,
             first_chapter: comic_chapters[ comic_chapters.length - 1 ] || null,
-            current_chapter: comic_chapters[ 0 ] || null
+            current_chapter: comic_chapters[ 0 ] || null,
+            is_editible
         } );
     } catch ( error ) { console.log( error ); }
 } );

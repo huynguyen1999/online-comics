@@ -95,6 +95,7 @@ router.post( '/logout', account_auth, ( req, res ) =>
     req.logout();
     req.is_auth = false;
     req.auth_user = null;
+    req.session.role = null;
     res.redirect( req.headers.referer );
 } );
 
