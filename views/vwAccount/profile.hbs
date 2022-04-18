@@ -13,9 +13,15 @@
       <div class="p-3 d-flex align-items-center">
         <i class="bi bi-key fs-5 mx-2"></i>
         <a href="/account/change-password" class="text-decoration-none text-dark fs-5">
-        Change password</a>
+        Change Password</a>
       </div>
-      
+      {{#if is_publisher}}
+      <div class="p-3 d-flex align-items-center">
+        <i class="bi bi-archive mx-2"></i>
+        <a href="/publisher/your-comics" class="text-decoration-none text-dark fs-5">
+        Your Comics</a>
+      </div>
+      {{/if}}
     </div>
     {{#with auth_user}}
     <form

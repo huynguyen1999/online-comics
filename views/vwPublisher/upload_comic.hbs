@@ -1,0 +1,62 @@
+<div class="container my-3">
+  <form
+    action="/publisher/upload-comic"
+    method="POST"
+    enctype="multipart/form-data"
+    id="form-comic"
+    class="shadow p-2"
+  >
+    <div class="mb-3">
+      <label class="form-label">Choosing your thumbnail</label>
+      <input class="form-control" type="file" name="cover" id="input-cover" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Comic Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="text-name"
+        placeholder="Comic Name"
+        name="name"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Tags</label>
+      <select
+        class="chosen-select w-100"
+        multiple="true"
+        name="tags"
+        id="select-tags"
+      >
+        {{#each all_tags}}
+          <option value="{{t_ID}}">{{t_Name}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Author</label>
+      <input type="text" class="w-100" name="author" id="text-author" />
+    </div>
+    <div class="my-3">
+      <label class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        placeholder="Comic Description"
+        id="text-description"
+        name="description"
+      ></textarea>
+    </div>
+    <div class="text-end mb-2">
+      <button
+        type="submit"
+        value="Submit"
+        class="btn btn-outline-primary"
+      >Submit</button>
+    </div>
+  </form>
+
+</div>
+
+<script>
+  $( document ).ready( () => $( '.chosen-select' ).chosen() );
+</script>

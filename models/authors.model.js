@@ -3,6 +3,11 @@ const moment = require( 'moment' );
 require( 'dotenv' ).config();
 
 module.exports = {
+    all: () =>
+    {
+        const sql = `select * from authors`;
+        return database.load( sql );
+    },
     get_comics_of_author: ( author_id ) =>
     {
         const sql =

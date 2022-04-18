@@ -1,0 +1,67 @@
+<div class="container my-3">
+  <div class="d-flex justify-content-between">
+    <div class="w-25">
+      <div class="p-3 d-flex align-items-center">
+        <i class="bi bi-person-circle fs-5 mx-2"></i>
+        <a href="/account/profile" class="text-decoration-none text-dark fs-5">
+          Profile</a>
+      </div>
+      <div class="p-3 d-flex align-items-center">
+        <i class="bi bi-key fs-5 mx-2"></i>
+        <a
+          href="/account/change-password"
+          class="text-decoration-none text-dark fs-5"
+        >
+          Change Password</a>
+      </div>
+      {{#if is_publisher}}
+        <div class="p-3 bg-dark text-white d-flex align-items-center">
+          <i class="bi bi-archive mx-2"></i>
+          <a
+            href="/publisher/your-comics"
+            class="text-decoration-none text-white fs-5"
+          >
+            Your Comics</a>
+        </div>
+      {{/if}}
+    </div>
+    <div class="w-75 m-2 comic-container">
+      {{#each comics}}
+        <div class="card w-100 m-2 shadow-sm">
+          <div class="card-body d-flex justify-content-between">
+            <h5 class="card-title">{{c_Name}}</h5>
+            <div>
+              <a href="/comic/{{c_ID}}" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a
+                href="/publisher/upload-chapter?id={{c_ID}}"
+                class="btn btn-primary"
+              >
+                <i class="bi bi-plus-square"></i>
+              </a>
+              <button
+                type="button"
+                data-comic-id="{{c_ID}}"
+                class="btn btn-primary btn-remove-comic"
+              >
+                <i class="bi bi-x-square"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).on('click', '.btn-remove-comic', event=>{ const current_element =
+  $(event.target); if (current_element.prop('tagName') != 'BUTTON')
+  current_element = current_element.parent(); const comic_id =
+  current_element.data('comic-id'); const comic_element =
+  current_element.parentsUntil('.comic-container');
+  $.post('/publisher/remove-comic', {comic_id: comic_id},'json') .done(data=>{
+  if(data){ comic_element.remove(); } }) });
+</script>

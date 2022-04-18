@@ -67,5 +67,36 @@ module.exports = {
         delete entity[ 'c_ID' ];
         return database.patch( entity, condition, 'comics' );
     },
-    
+    get_publisher_comics: async user_id =>
+    {
+        const sql = `select * 
+                    from publisher_comics left join comics using(c_ID)
+                    left join (SELECT  cm.c_ID, max(ch.ch_No) as c_LatestChapter, max(ch.ch_Update) as ch_Update
+                                    FROM comics cm
+                                    INNER JOIN chapters ch 
+                                    USING (c_ID)
+                                    GROUP BY cm.c_ID) AS t1
+                    USING( c_ID )
+                    where u_ID = ${ user_id }`;
+        return database.load( sql );
+    },
+    add_comic: async ( entity, user_id ) =>
+    {
+        const info = await database.add( entity, 'comics' );
+        await database.add( { c_ID: info.insertId, u_ID: user_id }, `publisher_comics` );
+        return info;
+    },
+    update_comic: async ( entity ) =>
+    {
+        const condition = { c_ID: entity.c_ID };
+        delete entity[ 'c_ID' ];
+        return database.patch( entity, condition, 'comics' );
+    },
+    add_chapter: async ( entity ) => database.add( entity, 'chapters' ),
+    update_chapter: async ( entity ) =>
+    {
+        const condition = { ch_ID: entity.ch_ID };
+        delete entity[ 'ch_ID' ];
+        return database.patch( entity, condition, 'chapters' );
+    },
 };

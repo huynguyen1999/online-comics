@@ -41,17 +41,26 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="headermenu">
+      
       <ul class="navbar-nav ms-auto">
+        {{#if is_publisher}}
+          <a class="btn btn-secondary d-flex justify-content-center align-items-center"
+            id="btn-publish" type="button" href="/publisher/upload-comic">
+            <i class="bi bi-cloud-arrow-up mx-1"></i>
+            Upload
+          </a>
+        {{/if}}
+         
         {{#if is_auth}}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Welcome our
-              {{#if is_reader}}reader -{{/if}}
-              {{#if is_publisher}}publisher -{{/if}}
-              {{#if is_admin}}admin -{{/if}}
+            <a class="nav-link dropdown-toggle" href="#" 
+            role="button" data-bs-toggle="dropdown">
+              {{#if is_reader}}Reader -{{/if}}
+              {{#if is_publisher}}Publisher -{{/if}}
+              {{#if is_admin}}Admin -{{/if}}
               <span class="fw-bold fs-5">{{auth_user.u_Name}}</span>
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu mx-5">
               {{#if is_admin}}
               <li><a class="dropdown-item" href="/admin">For admin</a></li>
               {{/if}}

@@ -236,6 +236,13 @@ module.exports = {
         if ( rows.length === 0 ) return null;
         return rows[ 0 ];
     },
+    get_latest_chapter: async comic_id =>
+    {
+        const sql = `select MAX(ch_No) as latest_chapter from chapters where c_ID = ${ comic_id }`;
+        const rows = await database.load( sql );
+        if ( rows.length === 0 ) return 1;
+        return rows[0].latest_chapter;
+    },
     get_comments_of_comic: ( comic_id ) =>
     {
         const sql =

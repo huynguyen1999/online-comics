@@ -1,0 +1,74 @@
+<div class="container my-3">
+  <form
+    action="/publisher/upload-chapter"
+    method="POST"
+    enctype="multipart/form-data"
+    id="form-chapter"
+    class="shadow p-2"
+  >
+    <div class="mb-3">
+      <label class="form-label">Comic Name</label>
+      <select name="comic_id" id="select-comics" class="w-25">
+        {{#if comic}}
+          <option value="{{comic.c_ID}}" selected>{{comic.c_Name}}</option>
+        {{else}}
+          {{#each publisher_comics}}
+            <option value="{{c_ID}}">{{c_Name}}</option>
+          {{/each}}
+        {{/if}}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Chapter No</label>
+      <input
+        type="number"
+        class="w-25 ms-2"
+        name="chapter_no"
+        id="input-chapter-no"
+        min="1"
+      />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Upload images</label>
+      <input
+        class="form-control"
+        type="file"
+        name="chapter_images"
+        id="input-chapter-images"
+        multiple
+      />
+    </div>
+    <div class="text-end mb-2">
+      <button
+        type="submit"
+        value="Submit"
+        class="btn btn-outline-primary"
+      >Submit</button>
+    </div>
+  </form>
+
+</div>
+
+<script>
+  $(document).ready(()=>{
+    const comic_id = $('#select-comics').val();
+    const chapter_element = $('#input-chapter-no');
+    $.getJSON(`/comic/${comic_id}/latest_chapter`)
+      .done(data=>{
+         chapter_element.val(data.latest_chapter + 1);
+          chapter_element.prop('readonly', true);
+      })
+  });
+
+  $(document).on('change', '#select-comics', event=>{ 
+    const current_element = $(event.target);
+    const comic_id = current_element.val();
+    const chapter_element = $('#input-chapter-no');
+    $.getJSON(`/comic/${comic_id}/latest_chapter`)
+      .done(data=>{
+        chapter_element.val(data.latest_chapter + 1);
+        chapter_element.prop('readonly', true);
+      });
+  });
+</script>

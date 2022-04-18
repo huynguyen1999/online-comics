@@ -5,9 +5,14 @@ const account_auth = require( '../middlewares/account_auth.mdw' );
 const { publisher_authorization, non_reader_authorization } = require( '../middlewares/account_authorization.mdw' );
 const moment = require( 'moment' );
 const publisher_model = require( '../models/publisher.model' );
+const comics_model = require( '../models/comics.model' );
 const passport = require( '../config/passport.config' );
 const authors_model = require( '../models/authors.model' );
+const comic_uploader = require( '../middlewares/upload_comic.mdw' );
+
 const fs = require( 'fs' );
+const fse = require( 'fs-extra' );
+const multer = require( 'multer' );
 
 router.post( '/edit-name', non_reader_authorization, async ( req, res ) =>
 {
@@ -181,8 +186,11 @@ router.post( '/remove-comic', non_reader_authorization, async ( req, res ) =>
     {
         console.log( req.body );
         const comic_id = req.body.comic_id,
-            user_id = req.body.user_id;
+            user_id = req.user.u_ID;
         await publisher_model.remove_comic( user_id, comic_id );
+        await fs.rmSync( process.cwd() + `/public/${ comic_id }`,
+            { recursive: true, force: true } );
+        // await fs.rmSync(`/public/${comic_id}`, { recursive: true, force: true });
         res.json( true );
     }
     catch ( error )
@@ -191,5 +199,129 @@ router.post( '/remove-comic', non_reader_authorization, async ( req, res ) =>
         res.json( false );
     }
 } );
+
+router.get( '/your-comics', publisher_authorization, async ( req, res ) =>
+{
+    try
+    {
+        const comics = await publisher_model.get_publisher_comics( req.user.u_ID );
+        res.render( 'vwPublisher/your_comics', {
+            comics
+        } );
+    }
+    catch ( error )
+    {
+        console.log( error );
+        return res.josn( false );
+    }
+} );
+
+router.get( '/upload-comic', publisher_authorization, async ( req, res ) =>
+{
+    try { res.render( 'vwPublisher/upload_comic' ); }
+    catch ( error )
+    {
+        console.log( error );
+        res.redirect( req.headers.referer );
+    }
+} );
+
+router.get( '/upload-chapter', publisher_authorization, async ( req, res ) =>
+{
+    try
+    {
+        const comic_id = +req.query.id || null;
+        const publisher_comics = await publisher_model.get_publisher_comics( req.user.u_ID );
+        let comic = null;
+        if ( comic_id !== 0 )
+            comic = await comics_model.single( comic_id );
+        res.render( 'vwPublisher/upload_chapter', { comic, publisher_comics } );
+    }
+    catch ( error )
+    {
+        console.log( error );
+        res.redirect( req.headers.referer );
+    }
+} );
+
+const chapter_uploader = require( '../middlewares/upload_chapter.mdw' )
+    .array( 'chapter_images', 60 );
+router.post( '/upload-chapter',
+    publisher_authorization,
+    ( req, res, next ) =>
+    {
+        chapter_uploader( req, res, ( err ) =>
+        {
+            if ( err instanceof multer.MulterError && err.code === 'LIMIT_UNEXPECTED_FILE' )
+                res.send( 'limit unexpected file' );
+            else if ( err )
+                res.send( err );
+            else next();
+        } );
+    },
+    async ( req, res ) =>
+    {
+        try
+        {
+            console.log( req.body );
+            const comic_id = req.body.comic_id,
+                chapter_no = req.body.chapter_no;
+            const comic = await comics_model.single( comic_id );
+            const chapter_entity = {
+                c_ID: comic_id,
+                ch_No: chapter_no,
+                ch_ID: req.body.new_chapter_id
+            };
+            await publisher_model.update_chapter( chapter_entity );
+            await fse.copySync( req.body.user_upload_path,
+                `./public/${ req.body.comic_id }/${ chapter_no }` );
+            res.redirect( req.headers.referer );
+        }
+        catch ( error )
+        {
+            console.log( error );
+            res.redirect( req.headers.referer );
+        }
+    } );
+
+router.post( '/upload-comic',
+    publisher_authorization,
+    comic_uploader.single( 'cover' ),
+    async ( req, res ) =>
+    {
+        try
+        {
+            console.log( req.body );
+            const author_name = req.body.author;
+            let author = await authors_model.find_by_name( author_name );
+            if ( !author )
+                author = await authors_model.add_author( { a_Name: author_name } );
+            const author_id = author.a_ID ? author.a_ID : author.insertId;
+
+            const comic_entity = {
+                c_ID: req.body.new_comic_id,
+                c_Name: req.body.name,
+                c_Status: 1,
+                c_UploadDate: moment( new Date() ).format( 'YYYY-MM-DD HH:mm:ss' ),
+                c_Likes: 0,
+                c_Follows: 0,
+                c_Description: req.body.description,
+                a_ID: author_id
+            };
+            await publisher_model.update_comic( comic_entity );
+            // copy files 
+            await fse.copySync( req.body.user_upload_path,
+                `./public/${ req.body.new_comic_id }` );
+
+            console.log( comic_entity );
+            // res.json( true );
+            res.redirect( `/publisher/upload-chapter?id=${ req.body.new_comic_id }` );
+        }
+        catch ( error )
+        {
+            console.log( error );
+            res.redirect( req.headers.referer );
+        }
+    } );
 
 module.exports = router;

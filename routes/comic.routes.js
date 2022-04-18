@@ -25,6 +25,21 @@ router.get( '/:comic_id/other-tags', async ( req, res ) =>
     }
 } );
 
+router.get( '/:comic_id/latest_chapter', async ( req, res ) =>
+{
+    try
+    {
+        const comic_id = req.params[ 'comic_id' ];
+        const latest_chapter = await comics_model.get_latest_chapter( comic_id );
+        return res.json( { latest_chapter: latest_chapter } );
+    }
+    catch ( error )
+    {
+        console.log( error );
+        return res.json( false );
+    }
+} );
+
 router.get( '/:comic_id', async ( req, res ) =>
 {
     try
