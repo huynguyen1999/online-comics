@@ -6,9 +6,7 @@ which helps user relax by reading our comics online.
 Clone the repository to your local computer:
 - Run the SQL script online_comic_database.sql in your sql server to get data.
 - Configure variables (DB_HOST, DB_USER, DB_PASSWORD) in the .env file so you can get access to your sql server. 
-- In the project directory, you can run:
-### `node app`
-- Runs the app in the development mode.\
+- In the project directory, you can run `npm install` to install dependencies and then run `node app` to run the app in the development mode.
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser, any errors will be displayed in the console.
 
 This website was created by using : \
