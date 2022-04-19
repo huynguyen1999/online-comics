@@ -18,4 +18,4 @@ This website was created by using :
 ### Home page
 ![Homepage](https://user-images.githubusercontent.com/46386624/164059885-a071c366-635c-44af-a43a-66ac060f3d12.png)
 ### Search comics
-![Search](https://user-images.githubusercontent.com/46386624/164064173-bfaecef2-1c15-47db-8ffe-dd0f6f53a24a.png)
+![Search](https://user-images.githubusercontent.com/46386624/164064342-23afa122-34d9-4c12-aa49-4971c52266df.png)
