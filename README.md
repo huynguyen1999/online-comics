@@ -19,3 +19,11 @@ This website was created by using :
 ![Homepage](https://user-images.githubusercontent.com/46386624/164059885-a071c366-635c-44af-a43a-66ac060f3d12.png)
 ### Search comics
 ![Search](https://user-images.githubusercontent.com/46386624/164064342-23afa122-34d9-4c12-aa49-4971c52266df.png)
+### View comic details
+![Comic_details](https://user-images.githubusercontent.com/46386624/164064950-29a51908-6a1b-400d-9609-df5680cee663.png)
+### Read comic
+![Comic_chapter](https://user-images.githubusercontent.com/46386624/164065228-28c14da9-9df8-4896-be68-8c6ae9eecd93.png)
+### Authorization users
+- Current user: conghuynt1999 
+- Password: admin
+![Authorization](https://user-images.githubusercontent.com/46386624/164065930-41387276-b6ab-4a4c-8b8f-ce3d1e0d24d3.png)
