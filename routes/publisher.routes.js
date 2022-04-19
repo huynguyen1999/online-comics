@@ -297,7 +297,7 @@ router.post( '/upload-comic',
             if ( !author )
                 author = await authors_model.add_author( { a_Name: author_name } );
             const author_id = author.a_ID ? author.a_ID : author.insertId;
-
+            
             const comic_entity = {
                 c_ID: req.body.new_comic_id,
                 c_Name: req.body.name,
