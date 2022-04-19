@@ -9,7 +9,7 @@ Clone the repository to your local computer:
 - In the project directory, you can run `npm install` to install dependencies and then run `node app` to run the app in the development mode.
 - Open [http://localhost:3000](http://localhost:3000) to view it in the browser, any errors will be displayed in the console.
 
-This website was created by using : \
+This website was created by using :
 - Front-end: HTML, CSS, JQuery, Bootstrap 5, Handlebars
 - Back-end: Node.JS (Express), Javascript
 
