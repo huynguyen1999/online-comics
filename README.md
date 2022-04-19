@@ -1,6 +1,6 @@
 # Online Comics Project
 This is a simple web project inspired by http://truyenqqpro.com/,
-which helps user relax by reading our comics online.
+which helps user relax by reading our awesome comics online.
 
 ## How to run the project
 Clone the repository to your local computer:
@@ -17,3 +17,5 @@ This website was created by using :
 ## DEMO
 ### Home page
 ![Homepage](https://user-images.githubusercontent.com/46386624/164059885-a071c366-635c-44af-a43a-66ac060f3d12.png)
+### Search comics
+![Search](https://user-images.githubusercontent.com/46386624/164064173-bfaecef2-1c15-47db-8ffe-dd0f6f53a24a.png)
