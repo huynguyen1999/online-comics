@@ -241,15 +241,11 @@
               <i class="bi bi-hand-thumbs-up mx-2"></i>
               Like
               {{/if}}
-            
-            
           </a>
           </div>
          {{/if}}
         </div>
-        
       </div>
-
     </div>
     <div>
       <div class="d-flex align-items-center fs-4 text-warning my-3">
@@ -276,11 +272,13 @@
         <i class="bi bi-view-list mx-2"></i>
         Chapters
       </div>
+      {{#if ../is_editible}}
       <a class="btn btn-outline-primary m-3 d-flex justify-content-center align-items-center w-25"
       href="/publisher/upload-chapter?id={{c_ID}}">
         <i class="bi bi-plus"></i>
         Add Chapter
       </a>
+      {{/if}}
       <div class="overflow-auto shadow-lg mx-3 my-3 scrollable chapter-container" >
         {{#if ../comic_chapters}}
           {{#each ../comic_chapters}}
